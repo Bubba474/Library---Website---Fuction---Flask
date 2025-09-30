@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sistema de Biblioteca Interativo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body>
+    <h1>Sistema de Biblioteca Interativo</h1>
+
+    <nav style="text-align:center; margin-bottom: 20px;">
+        <a href="{{ url_for('emprestar') }}" style="margin-right: 20px;">Fazer Empréstimo</a>
+        <a href="{{ url_for('devolver') }}" style="margin-right: 20px;">Realizar Devolução</a>
+        <a href="{{ url_for('cadastro') }}" style="margin-right: 20px;">Cadastrar Usuário</a>
+        <a href="{{ url_for('usuario_dashboard') }}">Consultar Usuário</a>
+        <a href="{{ url_for('relatorios') }}" style="margin-left: 20px; font-weight: bold;">📊 Ver Relatórios</a>
+    </nav>
+
+    <!-- Formulário de busca -->
+    <div style="text-align:center; margin-bottom: 30px;">
+        <form method="get" action="{{ url_for('home') }}">
+            <input type="text" name="titulo" placeholder="Buscar por título" value="{{ busca.titulo }}">
+            <input type="text" name="autor" placeholder="Buscar por autor" value="{{ busca.autor }}">
+            <input type="text" name="ano" placeholder="Buscar por ano" value="{{ busca.ano }}">
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <table border="1" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Ano</th>
+                    <th>Disponíveis</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if livros %}
+                {% for livro in livros %}
+                <tr>
+                    <td>{{ livro.titulo }}</td>
+                    <td>{{ livro.autor }}</td>
+                    <td>{{ livro.ano }}</td>
+                    <td>{{ livro.quantidade_disponivel }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="4">Nenhum livro encontrado com os filtros aplicados.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginação -->
+    <div style="text-align:center; margin-top: 20px;">
+        {% if total_paginas > 1 %}
+        {% if pagina > 1 %}
+        <a href="{{ url_for('home', titulo=busca.titulo, autor=busca.autor, ano=busca.ano, pagina=pagina-1) }}">←
+            Anterior</a>
+        {% endif %}
+        Página {{ pagina }} de {{ total_paginas }}
+        {% if pagina < total_paginas %} <a
+            href="{{ url_for('home', titulo=busca.titulo, autor=busca.autor, ano=busca.ano, pagina=pagina+1) }}">Próxima
+            →</a>
+            {% endif %}
+            {% endif %}
+    </div>
+
+    <!-- Mensagens flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flash-messages" style="list-style:none; padding:0; text-align:center; margin-top:20px;">
+        {% for category, message in messages %}
+        <li class="{{ category }}" style="margin-bottom: 10px;">
+            {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+</body>
+
+</html>

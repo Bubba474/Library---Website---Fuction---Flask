@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 6px;
+        }
+
+        th {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Histórico de Empréstimos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Usuário</th>
+                <th>CPF</th>
+                <th>Livro</th>
+                <th>Data</th>
+                <th>Devolvido</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registro in registros %}
+            <tr>
+                <td>{{ registro.usuario }}</td>
+                <td>{{ registro.cpf }}</td>
+                <td>{{ registro.livro }}</td>
+                <td>{{ registro.data.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td>{{ 'Sim' if registro.devolvido else 'Não' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

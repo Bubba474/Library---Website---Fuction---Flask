@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Histórico - Biblioteca</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <nav class="navbar bg-light px-3">
+        <a class="navbar-brand" href="{{ url_for('home') }}">Biblioteca</a>
+        <div>
+            <a href="{{ url_for('home') }}" class="btn btn-outline-secondary me-2">Voltar</a>
+            {% if session['username'] == 'admin' %}
+            <a href="{{ url_for('exportar_excel') }}" class="btn btn-success me-2">Exportar Excel</a>
+            <a href="{{ url_for('exportar_pdf') }}" class="btn btn-danger me-2">Exportar PDF</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Sair</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2>Histórico de Empréstimos</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>CPF</th>
+                    <th>Livro</th>
+                    <th>Data</th>
+                    <th>Devolvido</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registro in registros %}
+                <tr>
+                    <td>{{ registro.usuario }}</td>
+                    <td>{{ registro.cpf }}</td>
+                    <td>{{ registro.livro }}</td>
+                    <td>{{ registro.data.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>{{ 'Sim' if registro.devolvido else 'Não' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

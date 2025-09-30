@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard do Usuário</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            margin: auto;
+            max-width: 700px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        h2,
+        h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Dashboard do Usuário</h2>
+
+        <div class="section">
+            <h3>Informações Pessoais</h3>
+            <ul>
+                <li><strong>Nome:</strong> {{ usuario.nome }}</li>
+                <li><strong>CPF:</strong> {{ usuario.cpf }}</li>
+                <li><strong>Email:</strong> {{ usuario.email }}</li>
+                <li><strong>Tipo:</strong> {{ usuario.__class__.__name__ }}</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>📚 Empréstimos Ativos</h3>
+            {% if ativos %}
+            <ul>
+                {% for emp in ativos %}
+                <li><strong>{{ emp.titulo }}</strong> — emprestado em {{ emp.data_emprestimo }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>Nenhum empréstimo ativo.</p>
+            {% endif %}
+        </div>
+
+        <div class="section">
+            <h3>✅ Histórico de Devoluções</h3>
+            {% if historico %}
+            <ul>
+                {% for emp in historico %}
+                <li><strong>{{ emp.titulo }}</strong> — emprestado em {{ emp.data_emprestimo }}, devolvido em {{
+                    emp.data_devolucao }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>Nenhuma devolução registrada.</p>
+            {% endif %}
+        </div>
+
+        <div class="back-link">
+            <a href="{{ url_for('home') }}">← Voltar para a Home</a>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Devolução de Livro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body>
+    <h1>Devolução de Livro</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flash-messages">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('devolver') }}">
+        <label for="cpf">CPF do Usuário:</label><br />
+        <input type="text" id="cpf" name="cpf" required placeholder="Digite o CPF" /><br /><br />
+
+        <label for="titulo">Título do Livro:</label><br />
+        <input type="text" id="titulo" name="titulo" required placeholder="Digite o título do livro" /><br /><br />
+
+        <button type="submit">Realizar Devolução</button>
+    </form>
+
+    <p><a href="{{ url_for('home') }}">Voltar para a lista de livros</a></p>
+</body>
+
+</html>
