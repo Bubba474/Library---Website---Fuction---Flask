@@ -1,6 +1,3 @@
-Claro! Aqui está um modelo de **README.md em inglês**, bem explicado, para o seu projeto de **Library Management System com Flask**:
-
----
 
 # 📚 Flask Library Management System
 
